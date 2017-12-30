@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.widget.Toast
+import com.donank.tradecrypto.Dagger.MainApplication
 import com.donank.tradecrypto.R
 
 

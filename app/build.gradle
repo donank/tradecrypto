@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 27
+    buildToolsVersion '27.0.1'
+    dataBinding { enabled = true }
     defaultConfig {
         applicationId "com.donank.tradecrypto"
         minSdkVersion 15
@@ -16,23 +17,59 @@ android {
     }
     buildTypes {
         release {
-            postprocessing {
-                removeUnusedCode false
-                removeUnusedResources false
-                obfuscate false
-                optimizeCode false
-                proguardFile 'proguard-rules.pro'
-            }
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            applicationIdSuffix = '.debug'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.0.1'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    //kotpref - SharedPreferences
+    compile "com.chibatching.kotpref:kotpref:$kotpref_version"
+    compile "com.chibatching.kotpref:initializer:$kotpref_version"
+
+    //dagger
+    compile "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    //retrofit - rest helper
+    compile "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+
+    //moshi - json serialize/de-serialize
+    compile "com.squareup.moshi:moshi-adapters:$moshi_version"
+    compile "com.squareup.moshi:moshi-kotlin:$moshi_version"
+
+    compile('com.github.nitrico.lastadapter:lastadapter:2.2.2')
+    kapt "com.android.databinding:compiler:$gradle_version"
+
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }
+repositories {
+    mavenCentral()
+    google()
+}
+kapt { generateStubs = true }
