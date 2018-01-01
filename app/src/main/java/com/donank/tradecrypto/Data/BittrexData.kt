@@ -14,71 +14,71 @@ data class Market(
 )
 
 data class MarketResult (
-    var MarketCurrency: String? = null,
-    var BaseCurrency: String? = null,
-    var MarketCurrencyLong: String? = null,
-    var BaseCurrencyLong: String? = null,
-    var MinTradeSize: Double? = null,
-    var MarketName: String? = null,
-    var IsActive: Boolean? = null,
-    var Created: Date? = null
+    val MarketCurrency: String? = null,
+    val BaseCurrency: String? = null,
+    val MarketCurrencyLong: String? = null,
+    val BaseCurrencyLong: String? = null,
+    val MinTradeSize: Double? = null,
+    val MarketName: String? = null,
+    val IsActive: Boolean? = null,
+    val Created: Date? = null
 )
 
 //https://bittrex.com/api/v1.1/public/getcurrencies
 data class SupportedCurrencies (
-    var success: Boolean? = null,
-    var message: String? = null,
-    var result: List<SupportedCurrenciesResult>? = null
+    val success: Boolean? = null,
+    val message: String? = null,
+    val result: List<SupportedCurrenciesResult>? = null
 )
 
 data class SupportedCurrenciesResult(
-        var Currency: String? = null,
-        var CurrencyLong: String? = null,
-        var MinConfirmation: Int? = null,
-        var TxFee: Double? = null,
-        var IsActive: Boolean? = null,
-        var CoinType: String? = null,
-        var BaseAddress: Any? = null
+        val Currency: String? = null,
+        val CurrencyLong: String? = null,
+        val MinConfirmation: Int? = null,
+        val TxFee: Double? = null,
+        val IsActive: Boolean? = null,
+        val CoinType: String? = null,
+        val BaseAddress: Any? = null
 )
 
 //https://bittrex.com/api/v1.1/public/getticker
 //param - "market" - required a string literal for the market (ex: BTC-LTC)
 data class SpecificTickerValues (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: SpecificTickerValuesResult? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: SpecificTickerValuesResult? = null
 )
 
 data class SpecificTickerValuesResult (
-        var Bid: Double? = null,
-        var Ask: Double? = null,
-        var Last: Double? = null
+        val Bid: Double? = null,
+        val Ask: Double? = null,
+        val Last: Double? = null
 )
 
 //All Market Summary = https://bittrex.com/api/v1.1/public/getmarketsummaries
 //Specific Market Summary = https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-ltc
 //param(Specific Market Summary) - "market" - required a string literal for the market (ex: BTC-LTC)
 data class MarketSummary (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: List<MarketSummaryResult>? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: List<MarketSummaryResult>? = null
 )
 
 
 
 data class MarketSummaryResult (
-        var MarketName : String? = null,
-        var High : Double? = null,
-        var Low : Double? = null,
-        var Volume : Double? = null,
-        var Last : Double? = null,
-        var BaseVolume : Double? = null,
-        var TimeStamp : Date? = null,
-        var OpenBuyOrders : Int? = null,
-        var OpenSellOrders : Int? = null,
-        var PrevDay : Double? = null,
-        var Created : Date? = null,
-        var DisplayMarketName : String? = null
+        val MarketName : String? = null,
+        val High : Double? = null,
+        val Low : Double? = null,
+        val Volume : Double? = null,
+        val Last : Double? = null,
+        val BaseVolume : Double? = null,
+        val TimeStamp : Date? = null,
+        val OpenBuyOrders : Int? = null,
+        val OpenSellOrders : Int? = null,
+        val PrevDay : Double? = null,
+        val Created : Date? = null,
+        val DisplayMarketName : String? = null
 )
 
 
@@ -86,37 +86,37 @@ data class MarketSummaryResult (
 //param - "market" - required a string literal for the market (ex: BTC-LTC)
 //param - "type" required buy, sell or both to identify the type of orderbook to return.
 data class OrderBook (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: List<OrderBookResult>? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: List<OrderBookResult>? = null
 )
 
 data class OrderBookResult(
-        var buy : List<Orders>? = null,
-        var sell : List<Orders>? = null
+        val buy : List<Orders>? = null,
+        val sell : List<Orders>? = null
 )
 
 data class Orders (
-        var Quantity : Double? = null,
-        var Rate : Double? = null
+        val Quantity : Double? = null,
+        val Rate : Double? = null
 )
 
 //https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-DOGE
 //param - "market" - required a string literal for the market (ex: BTC-LTC)
 data class SpecificMarketHistory (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: List<SpecificMarketHistoryResult>? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: List<SpecificMarketHistoryResult>? = null
 )
 
 data class SpecificMarketHistoryResult(
-        var Id : Long? = null,
-        var TimeStamp: Date? = null,
-        var Quantity: Double? = null,
-        var Price : Double? = null,
-        var Total : Double? = null,
-        var FillType :String? = null,
-        var OrderType : String? = null
+        val Id : Long? = null,
+        val TimeStamp: Date? = null,
+        val Quantity: Double? = null,
+        val Price : Double? = null,
+        val Total : Double? = null,
+        val FillType :String? = null,
+        val OrderType : String? = null
 )
 
 //Buy Limit url = https://bittrex.com/api/v1.1/market/buylimit?apikey=API_KEY&market=BTC-LTC&quantity=1.2&rate=1.3
@@ -125,87 +125,87 @@ data class SpecificMarketHistoryResult(
 //param - "quantity" - required the amount to purchase
 //param - "rate" - required the rate at which to place the order.
 data class BuySellLimit (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: BuySellLimitResult? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: BuySellLimitResult? = null
 )
 
 data class BuySellLimitResult (
-        var uuid : String? = null
+        val uuid : String? = null
 )
 
 //Cancel url = https://bittrex.com/api/v1.1/market/cancel?apikey=API_KEY&uuid=ORDER_UUID
 //param - "uuid" required uuid of buy or sell order
 data class CancelResult (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: Any? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: Any? = null
 )
 
 //https://bittrex.com/api/v1.1/market/getopenorders?apikey=API_KEY&market=BTC-LTC
 //param - "market" - required a string literal for the market (ex: BTC-LTC)
 data class OpenOrders (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: List<OpenOrdersResult>? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: List<OpenOrdersResult>? = null
 )
 
 data class OpenOrdersResult (
-        var Uuid : String? = null,
-        var OrderUuid : String? = null,
-        var Exchange : String? = null,
-        var OrderType : String? = null,
-        var Quantity: Double? = null,
-        var QuantityRemaining: Double? = null,
-        var Limit : Double? = null,
-        var CommisionPaid : Double? = null,
-        var Price : Double? = null,
-        var PricePerUnit : Double? = null,
-        var Opened : Date? = null,
-        var Closed : Date? = null,
-        var CancelInitiated : Boolean? = null,
-        var ImmediateOrCancel : Boolean? = null,
-        var IsConditional : Boolean? = null,
-        var Condition : Any? = null,
-        var ConditionTarget : Any? = null
+        val Uuid : String? = null,
+        val OrderUuid : String? = null,
+        val Exchange : String? = null,
+        val OrderType : String? = null,
+        val Quantity: Double? = null,
+        val QuantityRemaining: Double? = null,
+        val Limit : Double? = null,
+        val CommisionPaid : Double? = null,
+        val Price : Double? = null,
+        val PricePerUnit : Double? = null,
+        val Opened : Date? = null,
+        val Closed : Date? = null,
+        val CancelInitiated : Boolean? = null,
+        val ImmediateOrCancel : Boolean? = null,
+        val IsConditional : Boolean? = null,
+        val Condition : Any? = null,
+        val ConditionTarget : Any? = null
 )
 
 //All Balances = https://bittrex.com/api/v1.1/account/getbalances?apikey=API_KEY
 //Specific balance = https://bittrex.com/api/v1.1/account/getbalance?apikey=API_KEY&currency=BTC
 //param(Specific balance) - "currency" required a string literal for the currency (ex: LTC)
 data class AccountBalance (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: List<AccountBalanceResult>? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: List<AccountBalanceResult>? = null
 )
 
 data class SpecificAccountBalance (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: AccountBalanceResult? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: AccountBalanceResult? = null
 )
 
 data class AccountBalanceResult (
-        var Currency: String? = null,
-        var Balance : Double? = null,
-        var Available : Double? = null,
-        var Pending : Double? = null,
-        var CryptoAddress : String? = null,
-        var Requested: Boolean? = null,
-        var Uuid: String? = null
+        val Currency: String? = null,
+        val Balance : Double? = null,
+        val Available : Double? = null,
+        val Pending : Double? = null,
+        val CryptoAddress : String? = null,
+        val Requested: Boolean? = null,
+        val Uuid: String? = null
 )
 
 //https://bittrex.com/api/v1.1/account/getdepositaddress?apikey=API_KEY&currency=VTC
 //param - "currency" required a string literal for the currency (ex: LTC)
 data class DepositAddress (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: DepositAddressResult? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: DepositAddressResult? = null
 )
 
 data class DepositAddressResult (
-        var Currency :String? = null,
-        var Address : String? = null
+        val Currency :String? = null,
+        val Address : String? = null
 )
 
 //https://bittrex.com/api/v1.1/account/withdraw?apikey=API_KEY&currency=EAC&quantity=20.40&address=EAC_ADDRESS
@@ -214,93 +214,93 @@ data class DepositAddressResult (
 //param - "address" - required he address where to send the funds.
 //param - "paymentid" - optional used for CryptoNotes/BitShareX/Nxt optional field (memo/paymentid)
 data class Withdraw (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: WithdrawResult? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: WithdrawResult? = null
 )
 
 data class WithdrawResult (
-        var Uuid: String? = null
+        val Uuid: String? = null
 )
 
 //https://bittrex.com/api/v1.1/account/getorder&uuid=0cb4c4e4-bdc7-4e13-8c13-430e587d2cc1
 //param - "uuid" required uuid of buy or sell order
 data class SingleOrder (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: SingleOrderResult? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: SingleOrderResult? = null
 )
 
 data class SingleOrderResult (
-        var Uuid : String? = null,
-        var OrderUuid : String? = null,
-        var Exchange : String? = null,
-        var Type : String? = null,
-        var Quantity: Double? = null,
-        var QuantityRemaining: Double? = null,
-        var Limit : Double? = null,
-        var Reserved : Double? = null,
-        var ReserveRemaining : Double? = null,
-        var CommissionReserved : Double? = null,
-        var CommissionReserveRemaining : Double? = null,
-        var CommissionPaid: Double? = null,
-        var Price : Double? = null,
-        var PricePerUnit : Double? = null,
-        var Opened : Date? = null,
-        var Closed : Date? = null,
-        var IsOpen : Boolean? = null,
-        var Sentinel: String? = null,
-        var CancelInitiated : Boolean? = null,
-        var ImmediateOrCancel : Boolean? = null,
-        var IsConditional : Boolean? = null,
-        var Condition : Any? = null,
-        var ConditionTarget : Any? = null
+        val Uuid : String? = null,
+        val OrderUuid : String? = null,
+        val Exchange : String? = null,
+        val Type : String? = null,
+        val Quantity: Double? = null,
+        val QuantityRemaining: Double? = null,
+        val Limit : Double? = null,
+        val Reserved : Double? = null,
+        val ReserveRemaining : Double? = null,
+        val CommissionReserved : Double? = null,
+        val CommissionReserveRemaining : Double? = null,
+        val CommissionPaid: Double? = null,
+        val Price : Double? = null,
+        val PricePerUnit : Double? = null,
+        val Opened : Date? = null,
+        val Closed : Date? = null,
+        val IsOpen : Boolean? = null,
+        val Sentinel: String? = null,
+        val CancelInitiated : Boolean? = null,
+        val ImmediateOrCancel : Boolean? = null,
+        val IsConditional : Boolean? = null,
+        val Condition : Any? = null,
+        val ConditionTarget : Any? = null
 )
 
 //https://bittrex.com/api/v1.1/account/getorderhistory
 //param - "market" - required a string literal for the market (ex: BTC-LTC)
 data class OrderHistory (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: List<OrderHistoryResult>? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: List<OrderHistoryResult>? = null
 )
 
 data class OrderHistoryResult (
-        var OrderUuid : String? = null,
-        var Exchange : String? = null,
-        var TimeStamp: Date? = null,
-        var OrderType : String? = null,
-        var Limit : Double? = null,
-        var Quantity: Double? = null,
-        var QuantityRemaining: Double? = null,
-        var Commision : Double? = null,
-        var Price : Double? = null,
-        var PricePerUnit : Double? = null,
-        var IsConditional : Boolean? = null,
-        var Condition : Any? = null,
-        var ConditionTarget : Any? = null,
-        var ImmediateOrCancel : Boolean? = null
+        val OrderUuid : String? = null,
+        val Exchange : String? = null,
+        val TimeStamp: Date? = null,
+        val OrderType : String? = null,
+        val Limit : Double? = null,
+        val Quantity: Double? = null,
+        val QuantityRemaining: Double? = null,
+        val Commision : Double? = null,
+        val Price : Double? = null,
+        val PricePerUnit : Double? = null,
+        val IsConditional : Boolean? = null,
+        val Condition : Any? = null,
+        val ConditionTarget : Any? = null,
+        val ImmediateOrCancel : Boolean? = null
 )
 
 //Withdrawal = https://bittrex.com/api/v1.1/account/getwithdrawalhistory?currency=BTC
 //Deposit = https://bittrex.com/api/v1.1/account/getdeposithistory?currency=BTC
 //param - "currency" - required a string literal for the currency (ie. BTC)
 data class TransferHistory (
-        var success: Boolean? = null,
-        var message: String? = null,
-        var result: List<TransferHistoryResult>? = null
+        val success: Boolean? = null,
+        val message: String? = null,
+        val result: List<TransferHistoryResult>? = null
 )
 
 data class TransferHistoryResult (
-        var PaymentUuid : String? = null,
-        var Currency: String? = null,
-        var Amount : Double? = null,
-        var Address : String? = null,
-        var Opened: Date? = null,
-        var Authoried: Boolean? = null,
-        var PendingPayment: Boolean? = null,
-        var TxCost: Double? = null,
-        var TxId: String? = null,
-        var Canceled: Boolean? = null,
-        var InvalidAddress : Boolean? = null
+        val PaymentUuid : String? = null,
+        val Currency: String? = null,
+        val Amount : Double? = null,
+        val Address : String? = null,
+        val Opened: Date? = null,
+        val Authoried: Boolean? = null,
+        val PendingPayment: Boolean? = null,
+        val TxCost: Double? = null,
+        val TxId: String? = null,
+        val Canceled: Boolean? = null,
+        val InvalidAddress : Boolean? = null
 )
