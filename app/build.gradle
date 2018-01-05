@@ -49,6 +49,8 @@ dependencies {
     compile "com.chibatching.kotpref:kotpref:$kotpref_version"
     compile "com.chibatching.kotpref:initializer:$kotpref_version"
 
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21'
+
     //dagger
     compile "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
