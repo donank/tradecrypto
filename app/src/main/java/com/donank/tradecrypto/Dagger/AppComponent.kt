@@ -20,4 +20,5 @@ interface AppComponent {
     fun inject(settings: Settings)
     fun inject(dashboard: Dashboard)
     fun inject(trade: Trade)
+    fun inject(tradeBotDashboard: TradeBotDashboard)
 }

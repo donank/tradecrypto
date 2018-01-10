@@ -24,22 +24,22 @@ interface BittrexApiService {
     @GET("/public/getcurrencies")
     fun getCurrencies() : Observable<SupportedCurrencies>
 
-    @POST("/public/getticker")
-    fun getTicker(@Body market : String) : Observable<SpecificTickerValues>
+    @GET("/public/getticker")
+    fun getTicker(@Query("market") market : String) : Observable<SpecificTickerValues>
 
     @GET("/public/getmarketsummaries")
     fun getMarketSummary() : Observable<MarketSummary>
 
-    @POST("/public/getmarketsummary")
-    fun getSpecificmarketSummary(@Body market : String) : Observable<MarketSummary>
+    @GET("/public/getmarketsummary")
+    fun getSpecificmarketSummary(@Query("market") market : String) : Observable<MarketSummary>
 
-    @POST("/public/getorderbook")
-    fun getOrderBook(@Body market : String, type : String) : Observable<OrderBook>
+    @GET("/public/getorderbook")
+    fun getOrderBook(@Query("market") market : String,@Query("type") type : String) : Observable<OrderBook>
 
-    @POST("/public/getmarkethistory")
-    fun getMarketHistory(@Body market : String) : Observable<SpecificMarketHistory>
+    @GET("/public/getmarkethistory")
+    fun getMarketHistory(@Query("market") market : String) : Observable<SpecificMarketHistory>
 
-    @POST("/market/buylimit")
+    @GET("/market/buylimit")
     fun buy(@Query("apikey") apikey: String, @Query("market") market : String, @Query("quantity") quantity : Double, @Query("rate") rate : Double) : Observable<BuySellLimit>
 
     @GET("/market/selllimit")
