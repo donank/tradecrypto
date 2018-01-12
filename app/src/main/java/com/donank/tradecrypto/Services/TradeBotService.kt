@@ -14,19 +14,17 @@ class TradeBotService : IntentService("TradeBotService"){
         val commandValue = intent!!.getIntExtra("command", 0)
         val exchange = intent.getStringExtra("exchange")
         val market = intent.getStringExtra("market")
-        val totalAmount = intent.getDoubleExtra("totalAmount", 0.0)
         val useDefaultBotConf = intent.getBooleanExtra("useDefaultBotConf", false)
         val customConf = intent.getStringExtra("")
-        val stopLimit = intent.getDoubleExtra("stopLimit", 0.0)
-        val stopTime = intent.getLongExtra("stopTime", 0)
+        val scriptUri = intent.getStringExtra("scriptUri")
 
         if(commandValue == 1){
-            trade(exchange,market, totalAmount, stopLimit, stopTime)
+            trade(scriptUri)
         }
         else stopTrade()
     }
 
-    fun trade(exchange: String, market: String, totalAmount: Double, stopLimit: Double, stopTime: Long) {
+    fun trade(scriptUri: String) {
 
     }
 

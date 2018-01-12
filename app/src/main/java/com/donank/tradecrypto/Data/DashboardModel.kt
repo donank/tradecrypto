@@ -15,6 +15,11 @@ enum class Exchanges {
         BITTREX, POLONIEX
 }
 
+enum class OrderBookType {
+       BUY, SELL, BOTH
+}
+
+
 data class DashboardModel (
         val currency : String? = null,
         val price : Double? = null,

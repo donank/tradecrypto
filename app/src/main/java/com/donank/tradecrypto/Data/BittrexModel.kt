@@ -8,7 +8,7 @@ import java.util.*
 
 //https://bittrex.com/api/v1.1/public/getmarkets
 data class Market(
-        val success : Boolean? = null,
+        val success : Boolean = false,
         val message : String? = null,
         val result : List<MarketResult>? = null
 )
@@ -26,7 +26,7 @@ data class MarketResult (
 
 //https://bittrex.com/api/v1.1/public/getcurrencies
 data class SupportedCurrencies (
-    val success: Boolean? = null,
+    val success: Boolean = false,
     val message: String? = null,
     val result: List<SupportedCurrenciesResult>? = null
 )
@@ -44,7 +44,7 @@ data class SupportedCurrenciesResult(
 //https://bittrex.com/api/v1.1/public/getticker
 //param - "market" - required a string literal for the market (ex: BTC-LTC)
 data class SpecificTickerValues (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: SpecificTickerValuesResult? = null
 )
@@ -59,7 +59,7 @@ data class SpecificTickerValuesResult (
 //Specific Market Summary = https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-ltc
 //param(Specific Market Summary) - "market" - required a string literal for the market (ex: BTC-LTC)
 data class MarketSummary (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: List<MarketSummaryResult>? = null
 )
@@ -86,12 +86,18 @@ data class MarketSummaryResult (
 //param - "market" - required a string literal for the market (ex: BTC-LTC)
 //param - "type" required buy, sell or both to identify the type of orderbook to return.
 data class OrderBook (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
-        val result: List<OrderBookResult>? = null
+        val result: List<Orders>
 )
 
-data class OrderBookResult(
+data class BothOrderBook (
+        val success: Boolean = false,
+        val message: String? = null,
+        val result: List<BothOrderBookResult>? = null
+)
+
+data class BothOrderBookResult(
         val buy : List<Orders>? = null,
         val sell : List<Orders>? = null
 )
@@ -104,7 +110,7 @@ data class Orders (
 //https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-DOGE
 //param - "market" - required a string literal for the market (ex: BTC-LTC)
 data class SpecificMarketHistory (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: List<SpecificMarketHistoryResult>? = null
 )
@@ -125,7 +131,7 @@ data class SpecificMarketHistoryResult(
 //param - "quantity" - required the amount to purchase
 //param - "rate" - required the rate at which to place the order.
 data class BuySellLimit (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: BuySellLimitResult? = null
 )
@@ -137,7 +143,7 @@ data class BuySellLimitResult (
 //Cancel url = https://bittrex.com/api/v1.1/market/cancel?apikey=API_KEY&uuid=ORDER_UUID
 //param - "uuid" required uuid of buy or sell order
 data class CancelResult (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: Any? = null
 )
@@ -145,7 +151,7 @@ data class CancelResult (
 //https://bittrex.com/api/v1.1/market/getopenorders?apikey=API_KEY&market=BTC-LTC
 //param - "market" - required a string literal for the market (ex: BTC-LTC)
 data class OpenOrders (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: List<OpenOrdersResult>? = null
 )
@@ -174,13 +180,13 @@ data class OpenOrdersResult (
 //Specific balance = https://bittrex.com/api/v1.1/account/getbalance?apikey=API_KEY&currency=BTC
 //param(Specific balance) - "currency" required a string literal for the currency (ex: LTC)
 data class AccountBalance (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: List<AccountBalanceResult>? = null
 )
 
 data class SpecificAccountBalance (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: AccountBalanceResult? = null
 )
@@ -198,7 +204,7 @@ data class AccountBalanceResult (
 //https://bittrex.com/api/v1.1/account/getdepositaddress?apikey=API_KEY&currency=VTC
 //param - "currency" required a string literal for the currency (ex: LTC)
 data class DepositAddress (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: DepositAddressResult? = null
 )
@@ -214,7 +220,7 @@ data class DepositAddressResult (
 //param - "address" - required he address where to send the funds.
 //param - "paymentid" - optional used for CryptoNotes/BitShareX/Nxt optional field (memo/paymentid)
 data class Withdraw (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: WithdrawResult? = null
 )
@@ -226,7 +232,7 @@ data class WithdrawResult (
 //https://bittrex.com/api/v1.1/account/getorder&uuid=0cb4c4e4-bdc7-4e13-8c13-430e587d2cc1
 //param - "uuid" required uuid of buy or sell order
 data class SingleOrder (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: SingleOrderResult? = null
 )
@@ -260,7 +266,7 @@ data class SingleOrderResult (
 //https://bittrex.com/api/v1.1/account/getorderhistory
 //param - "market" - required a string literal for the market (ex: BTC-LTC)
 data class OrderHistory (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: List<OrderHistoryResult>? = null
 )
@@ -286,7 +292,7 @@ data class OrderHistoryResult (
 //Deposit = https://bittrex.com/api/v1.1/account/getdeposithistory?currency=BTC
 //param - "currency" - required a string literal for the currency (ie. BTC)
 data class TransferHistory (
-        val success: Boolean? = null,
+        val success: Boolean = false,
         val message: String? = null,
         val result: List<TransferHistoryResult>? = null
 )

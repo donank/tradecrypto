@@ -4,6 +4,7 @@ import com.donank.tradecrypto.Data.*
 import com.squareup.moshi.Moshi
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -35,6 +36,9 @@ interface BittrexApiService {
 
     @GET("/public/getorderbook")
     fun getOrderBook(@Query("market") market : String,@Query("type") type : String) : Observable<OrderBook>
+
+    @GET("/public/getorderbook")
+    fun getBothOrderBook(@Query("market") market : String,@Query("type") type : String = "both") : Observable<BothOrderBook>
 
     @GET("/public/getmarkethistory")
     fun getMarketHistory(@Query("market") market : String) : Observable<SpecificMarketHistory>
