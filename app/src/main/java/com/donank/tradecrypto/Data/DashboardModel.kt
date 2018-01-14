@@ -12,12 +12,21 @@ data class KeyPair (
 )
 
 enum class Exchanges {
-        BITTREX, POLONIEX
+        BITTREX, POLONIEX, BINANCE, RADAR
 }
 
 enum class OrderBookType {
        BUY, SELL, BOTH
 }
+
+data class CMCModel(
+        var symbol : String,
+        var price_usd : String,
+        var price_btc : String,
+        var percent_change_1h : String,
+        var percent_change_24h : String,
+        var percent_change_7d : String
+)
 
 
 data class DashboardModel (

@@ -1,22 +1,19 @@
-package com.donank.tradecrypto.Api
+package com.donank.tradecrypto.Api.REST
 
-import com.donank.tradecrypto.Data.*
+import com.donank.tradecrypto.Data.BittrexModel.*
 import com.squareup.moshi.Moshi
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Query
 
 /**
  * Created by donank on 30/12/17.
  */
-interface BittrexApiService {
+interface BittrexRESTInterface {
 
     //api calls here
     @GET("/public/getmarkets")
@@ -81,7 +78,7 @@ interface BittrexApiService {
 
     companion object {
 
-        fun create(moshi: Moshi, client: OkHttpClient): BittrexApiService {
+        fun create(moshi: Moshi, client: OkHttpClient): BittrexRESTInterface {
 
 
             val retrofit = Retrofit.Builder()
@@ -92,7 +89,7 @@ interface BittrexApiService {
                     .baseUrl("https://bittrex.com/api/v1.1")
                     .build()
 
-            return retrofit.create(BittrexApiService::class.java)
+            return retrofit.create(BittrexRESTInterface::class.java)
         }
     }
 

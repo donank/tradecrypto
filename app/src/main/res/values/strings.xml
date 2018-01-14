@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TradeCrypto</string>
+    <string name="service_name">TradeBot</string>
+    <string name="tradebot_service_context">TradeCrypto</string>
 </resources>

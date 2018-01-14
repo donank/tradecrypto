@@ -1,6 +1,7 @@
 package com.donank.tradecrypto.Api
 
 import android.util.Log
+import com.donank.tradecrypto.Api.REST.BittrexRESTInterface
 import com.donank.tradecrypto.Data.*
 import com.donank.tradecrypto.Data.AppPref.bittrexApiKey
 import com.donank.tradecrypto.Data.Exchanges.*
@@ -9,13 +10,13 @@ import javax.inject.Inject
 
 class ApiHelper {
 
-    @Inject lateinit var bitrexApiService: BittrexApiService
+    @Inject lateinit var bittrexRESTInterface: BittrexRESTInterface
 
     fun getTickerPrice(market: String, exchange: Exchanges) {
 
         when (exchange) {
             BITTREX -> {
-                bitrexApiService.getTicker(market)
+                bittrexRESTInterface.getTicker(market)
                         .subscribeOn(Schedulers.newThread())
                         .map {
                             if (it.success) {
@@ -30,7 +31,7 @@ class ApiHelper {
 
         when (exchange) {
             BITTREX -> {
-                bitrexApiService.getOrderBook(market, type.toString().toLowerCase())
+                bittrexRESTInterface.getOrderBook(market, type.toString().toLowerCase())
                         .map {
                             if (it.success) {
                                 return@map it.result
@@ -45,7 +46,7 @@ class ApiHelper {
 
         when (exchange) {
             BITTREX -> {
-                bitrexApiService.buy(bittrexApiKey, market, quantity, rate)
+                bittrexRESTInterface.buy(bittrexApiKey, market, quantity, rate)
                         .map {
                             if (it.success) {
                                 return@map it.result
@@ -59,7 +60,7 @@ class ApiHelper {
 
         when (exchange) {
             BITTREX -> {
-                bitrexApiService.sell(bittrexApiKey, market, quantity, rate)
+                bittrexRESTInterface.sell(bittrexApiKey, market, quantity, rate)
                         .map {
                             if (it.success) {
                                 return@map it.result
@@ -73,7 +74,7 @@ class ApiHelper {
 
         when (exchange) {
             BITTREX -> {
-                bitrexApiService.cancel(bittrexApiKey, uuid)
+                bittrexRESTInterface.cancel(bittrexApiKey, uuid)
                         .map {
                             if (it.success) {
                                 return@map it.result

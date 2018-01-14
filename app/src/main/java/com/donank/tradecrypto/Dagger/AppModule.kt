@@ -1,6 +1,8 @@
 package com.donank.tradecrypto.Dagger
 
 import android.app.Application
+import com.donank.tradecrypto.Api.REST.BittrexRESTInterface
+import com.donank.tradecrypto.Api.REST.CMCRESTInterface
 import com.squareup.moshi.*
 import dagger.Module
 import dagger.Provides
@@ -23,7 +25,7 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    @Named("BittrexAPI")
+    @Named("API")
     fun provideJson(): Moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
@@ -37,5 +39,15 @@ class AppModule(private val app: Application) {
 
         return OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).addInterceptor(interceptor).build()
     }
+
+    @Provides
+    @Singleton
+    fun provideBittrexRESTInterface(moshi: Moshi, http: OkHttpClient) =
+            BittrexRESTInterface.create(moshi, http)
+
+    @Provides
+    @Singleton
+    fun provideCMCRESTInterfac(moshi: Moshi, http: OkHttpClient) =
+            CMCRESTInterface.create(moshi, http)
 }
 
