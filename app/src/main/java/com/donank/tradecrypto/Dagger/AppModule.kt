@@ -25,7 +25,6 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    @Named("API")
     fun provideJson(): Moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
