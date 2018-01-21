@@ -2,6 +2,7 @@ package com.donank.tradecrypto.Api
 
 import android.util.Log
 import com.donank.tradecrypto.Api.REST.BittrexRESTInterface
+import com.donank.tradecrypto.Api.REST.PoloniexRESTInterface
 import com.donank.tradecrypto.Data.*
 import com.donank.tradecrypto.Data.AppPref.bittrexApiKey
 import com.donank.tradecrypto.Data.Exchanges.*
@@ -11,20 +12,28 @@ import javax.inject.Inject
 class ApiHelper {
 
     @Inject lateinit var bittrexRESTInterface: BittrexRESTInterface
+    @Inject lateinit var poloniexRESTInterface: PoloniexRESTInterface
 
-    fun getTickerPrice(market: String, exchange: Exchanges) {
-
+    fun getTickerPrice(market: String?, exchange: Exchanges?): DashboardModel {
+        val dashModel = DashboardModel()
         when (exchange) {
             BITTREX -> {
-                bittrexRESTInterface.getTicker(market)
+                bittrexRESTInterface.getTicker(market!!)
                         .subscribeOn(Schedulers.newThread())
                         .map {
                             if (it.success) {
-                                return@map it.result
+                                dashModel.price = it.result!!.Last
+                                dashModel.currency = market
+                                dashModel.exchange = exchange
+
                             } else Log.d("$exchange: getTicker($market) failed", "${it.message}")
                         }
             }
+            POLONIEX -> {
+                poloniexRESTInterface
+            }
         }
+        return dashModel
     }
 
     fun getOrderBook(market: String, exchange: Exchanges, type: OrderBookType) {

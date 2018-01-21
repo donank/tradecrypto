@@ -7,6 +7,52 @@ import java.util.*
  */
 class PoloniexModel {
 
+    data class Ticker(
+            val last : String,
+            val lowestAsk : String,
+            val highestBid : String,
+            val percentChange : String,
+            val baseVolume : String,
+            val quoteVolume : String
+    )
+
+    data class Volume (
+            val volume : Map<String, String>
+    )
+
+    data class OrderBook(
+            val asks : List<Pair<Int, Int>>,
+            val bids : List<Pair<Int, Int>>,
+            val isFrozen : Int,
+            val seq : Long
+    )
+
+    data class TradeHistory (
+            val date : Date,
+            val type : String,
+            val rate : String,
+            val amount : String,
+            val total : String
+    )
+
+    data class ChartData(
+            val date : Long,
+            val high : Double,
+            val low : Double,
+            val open : Double,
+            val close : Double,
+            val volume : Double,
+            val quoteVolume : Double,
+            val weightedAverage : Double
+    )
+
+    data class CurrencyData (
+            val maxDailyWithdrawal : Long,
+            val txFee : Float,
+            val minConf : Int,
+            val disabled : Int
+    )
+
     data class PoloBalance (
             val currency : String,
             val balance : String

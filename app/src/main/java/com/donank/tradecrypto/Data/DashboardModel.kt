@@ -30,16 +30,22 @@ data class CMCModel(
 
 
 data class DashboardModel (
-        val currency : String? = null,
-        val price : Double? = null,
-        val amount : Double? = null,
-        val change : Double? = null,
-        val action : Action? = null
+        var currency : String? = null,
+        var price : Double? = null,
+        var amount : Double? = null,
+        var change : Double? = null,
+        var action : Action? = null,
+        var exchange : Exchanges? = null
 )
 
 enum class Action {
         BUYLIMIT, SELLLIMIT, TRANSFER, ALERT
 }
+
+data class TrackedCurrencies (
+    val ticker : String? = null,
+    val exchange : Exchanges? = null
+)
 
 
 

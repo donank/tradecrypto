@@ -3,6 +3,7 @@ package com.donank.tradecrypto.Dagger
 import android.app.Application
 import com.donank.tradecrypto.Api.REST.BittrexRESTInterface
 import com.donank.tradecrypto.Api.REST.CMCRESTInterface
+import com.donank.tradecrypto.Api.REST.PoloniexRESTInterface
 import com.squareup.moshi.*
 import dagger.Module
 import dagger.Provides
@@ -35,7 +36,6 @@ class AppModule(private val app: Application) {
     fun provideHttp(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
-
         return OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).addInterceptor(interceptor).build()
     }
 
@@ -48,5 +48,10 @@ class AppModule(private val app: Application) {
     @Singleton
     fun provideCMCRESTInterfac(moshi: Moshi, http: OkHttpClient) =
             CMCRESTInterface.create(moshi, http)
+
+    @Provides
+    @Singleton
+    fun providePoloniexRESTInterface(moshi: Moshi, http: OkHttpClient) =
+            PoloniexRESTInterface.create(moshi, http)
 }
 
