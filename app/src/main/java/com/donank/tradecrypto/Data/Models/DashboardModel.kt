@@ -1,6 +1,8 @@
-package com.donank.tradecrypto.Data
+package com.donank.tradecrypto.Data.Models
 
-import java.util.*
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 
 /**
  * Created by xterra on 31/12/17.
@@ -35,16 +37,22 @@ data class DashboardModel (
         var amount : Double? = null,
         var change : Double? = null,
         var action : Action? = null,
-        var exchange : Exchanges? = null
+        var exchange : Exchanges? = null,
+        var percentChange : Float? = null
 )
 
 enum class Action {
         BUYLIMIT, SELLLIMIT, TRANSFER, ALERT
 }
 
-data class TrackedCurrencies (
-    val ticker : String? = null,
-    val exchange : Exchanges? = null
+@Entity(tableName = "tracked_currency")
+data class TrackedCurrency (
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0,
+    @ColumnInfo(name = "ticker")
+    var ticker : String? = null,
+    @ColumnInfo(name = "exchange")
+    var exchange : Exchanges? = null
 )
 
 

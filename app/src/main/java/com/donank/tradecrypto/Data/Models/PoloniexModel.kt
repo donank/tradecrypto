@@ -1,4 +1,4 @@
-package com.donank.tradecrypto.Data
+package com.donank.tradecrypto.Data.Models
 
 import java.util.*
 

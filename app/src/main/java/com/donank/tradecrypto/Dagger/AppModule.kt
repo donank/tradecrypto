@@ -1,16 +1,18 @@
 package com.donank.tradecrypto.Dagger
 
 import android.app.Application
+import android.arch.persistence.room.Room
+import android.content.Context
 import com.donank.tradecrypto.Api.REST.BittrexRESTInterface
 import com.donank.tradecrypto.Api.REST.CMCRESTInterface
 import com.donank.tradecrypto.Api.REST.PoloniexRESTInterface
+import com.donank.tradecrypto.Data.AppDatabase
 import com.squareup.moshi.*
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
-import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -22,6 +24,14 @@ class AppModule(private val app: Application) {
     @Singleton
     @ForApplication
     fun provideApplication() = app
+
+    @Provides
+    fun providesAppDatabase(context: Context): AppDatabase =
+            Room.databaseBuilder(context, AppDatabase::class.java, "my-trade-crypto-db")
+                    .build()
+
+    @Provides
+    fun providesTrackedCurrencyDao(database: AppDatabase) = database.trackedCurrencyDao()
 
 
     @Provides

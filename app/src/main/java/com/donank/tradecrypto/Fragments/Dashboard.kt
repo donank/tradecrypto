@@ -10,26 +10,30 @@ import android.view.ViewGroup
 import com.donank.tradecrypto.Api.ApiHelper
 import com.donank.tradecrypto.BR
 import com.donank.tradecrypto.Dagger.MainApplication
-import com.donank.tradecrypto.Data.DashboardModel
-import com.donank.tradecrypto.Data.TrackedCurrencies
+import com.donank.tradecrypto.Data.Dao.TrackedCurrencyDao
+import com.donank.tradecrypto.Data.Models.DashboardModel
 import com.donank.tradecrypto.R
 import com.donank.tradecrypto.databinding.ItemHoldingBinding
 import com.github.nitrico.lastadapter.LastAdapter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.dashboard_layout_1.*
+import kotlinx.coroutines.experimental.async
 import javax.inject.Inject
 
 /**
  * Created by donank on 26/12/17.
  */
-class Dashboard : Fragment(){
+class Dashboard : Fragment() {
 
     @Inject lateinit var apiHelper: ApiHelper
-    val trackedCurrencies = listOf(DashboardModel())
+
+    @Inject lateinit var trCurrencyDao : TrackedCurrencyDao
 
     private val holdings = ObservableArrayList<DashboardModel>()
     private val lastAdapter: LastAdapter by lazy { initLastAdapter() }
 
-    fun initLastAdapter() : LastAdapter {
+    fun initLastAdapter(): LastAdapter {
         return LastAdapter(holdings, BR.item)
                 .map<DashboardModel, ItemHoldingBinding>(R.layout.item_holding)
                 .into(dashboard_recycler_view)
@@ -47,12 +51,23 @@ class Dashboard : Fragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         dashboard_recycler_view.adapter = lastAdapter
-        trackedCurrencies.forEach {
-            apiHelper.getTickerPrice(it.currency, it.exchange)
-            holdings.clear()
-            holdings.add(it)
-        }
+        getData()
 
+    }
+
+    fun getData(){
+        trCurrencyDao.getAllCurrencies()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe{
+                    it.forEach {
+                        async {
+                            val dash = apiHelper.getTickerPrice(it.ticker, it.exchange)
+                            holdings.clear()
+                            holdings.add(dash)
+                        }
+                    }
+                }.dispose()
     }
 
     override fun onResume() {

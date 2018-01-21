@@ -1,6 +1,6 @@
 package com.donank.tradecrypto.Api.REST
 
-import com.donank.tradecrypto.Data.BittrexModel.*
+import com.donank.tradecrypto.Data.Models.BittrexModel.*
 import com.squareup.moshi.Moshi
 import io.reactivex.Observable
 import okhttp3.OkHttpClient

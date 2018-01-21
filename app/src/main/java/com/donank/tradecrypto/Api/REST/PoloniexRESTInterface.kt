@@ -1,6 +1,6 @@
 package com.donank.tradecrypto.Api.REST
 
-import com.donank.tradecrypto.Data.PoloniexModel.*
+import com.donank.tradecrypto.Data.Models.PoloniexModel.*
 import com.squareup.moshi.Moshi
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
@@ -13,7 +13,7 @@ import retrofit2.http.Query
 interface PoloniexRESTInterface {
 
     @GET("")
-    fun getTicker(
+    suspend fun getTicker(
             @Query("command") command: String = "returnTicker"): Observable<Map<String, Ticker>>
 
     @GET("")

@@ -3,7 +3,7 @@
     <data>
         <variable
             name = "item"
-            type = "com.donank.tradecrypto.Data.DashboardModel"/>
+            type = "com.donank.tradecrypto.Data.Models.DashboardModel"/>
     </data>
 
     <LinearLayout
@@ -16,6 +16,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{item.currency}"/>
+
+        <TextView
+            android:id="@+id/t_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.price}"/>
 
     </LinearLayout>
 
