@@ -13,6 +13,9 @@ import io.reactivex.Flowable
     @Query("select * from tracked_currency")
     fun getAllCurrencies() : Flowable<List<TrackedCurrency>>
 
+    @Query("select ticker from tracked_currency")
+    fun getAllTickers() : List<String>
+
     @Query("select * from tracked_currency where id = :id")
     fun TrackedCurrencyById(id : Long) : TrackedCurrency
 

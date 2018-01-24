@@ -13,6 +13,7 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
@@ -26,11 +27,13 @@ class AppModule(private val app: Application) {
     fun provideApplication() = app
 
     @Provides
-    fun providesAppDatabase(context: Context): AppDatabase =
+    @Singleton
+    fun providesAppDatabase(context: Application): AppDatabase =
             Room.databaseBuilder(context, AppDatabase::class.java, "my-trade-crypto-db")
                     .build()
 
     @Provides
+    @Singleton
     fun providesTrackedCurrencyDao(database: AppDatabase) = database.trackedCurrencyDao()
 
 

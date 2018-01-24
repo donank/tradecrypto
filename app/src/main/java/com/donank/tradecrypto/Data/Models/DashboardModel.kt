@@ -47,12 +47,13 @@ enum class Action {
 
 @Entity(tableName = "tracked_currency")
 data class TrackedCurrency (
-    @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
+
     @ColumnInfo(name = "ticker")
     var ticker : String? = null,
     @ColumnInfo(name = "exchange")
-    var exchange : Exchanges? = null
+    var exchange : String? = null,
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0
 )
 
 

@@ -7,7 +7,7 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100px"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
         <TextView
@@ -27,7 +27,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50px"
+        android:layout_height="30dp"
         android:orientation="horizontal"
         android:id="@+id/porfolio_list_header">
 
@@ -64,6 +64,11 @@
             android:layout_weight="1"/>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/test_tv"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/dashboard_recycler_view"

@@ -18,39 +18,38 @@ class ApiHelper {
     @Inject lateinit var bittrexRESTInterface: BittrexRESTInterface
     @Inject lateinit var poloniexRESTInterface: PoloniexRESTInterface
 
-    suspend fun getTickerPrice(market: String?, exchange: Exchanges?): DashboardModel {
+    suspend fun getTickerPrice(market: String?, exchange: String?): DashboardModel {
         val dashModel = DashboardModel()
         when (exchange) {
-            BITTREX -> runBlocking {
+            "BITTREX" -> runBlocking {
                  async {
                      bittrexRESTInterface.getTicker(market!!)
                              .subscribeOn(Schedulers.newThread())
-                             .map {
+                             .subscribe {
                                  if (it.success) {
                                      dashModel.price = it.result!!.Last
                                      dashModel.currency = market
-                                     dashModel.exchange = exchange
-
+                                     dashModel.exchange = BITTREX
                                  } else Log.d("$exchange: getTicker($market) failed", "${it.message}")
-                             }
+                             }.dispose()
                  }.await()
             }
-            POLONIEX -> runBlocking {
+            "POLONIEX" -> runBlocking {
                 async {
                     poloniexRESTInterface.getTicker()
                             .subscribeOn(Schedulers.newThread())
-                            .map {
+                            .subscribe {
                                 if (!it.isEmpty()) {
                                     it.forEach {
                                         if(it.key == market){
                                             dashModel.price = it.value.last.toDouble()
                                             dashModel.currency = market
-                                            dashModel.exchange = exchange
+                                            dashModel.exchange = POLONIEX
                                             dashModel.percentChange = it.value.percentChange.toFloat()
                                         }
                                     }
                                 }
-                            }
+                            }.dispose()
                 }.await()
             }
         }
@@ -71,7 +70,7 @@ class ApiHelper {
             }
         }
     }
-
+/*
     fun buy(market: String, exchange: Exchanges, quantity: Double, rate: Double) {
 
         when (exchange) {
@@ -113,4 +112,5 @@ class ApiHelper {
             }
         }
     }
+    */
 }
