@@ -5,24 +5,23 @@ import android.databinding.ObservableArrayList
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.donank.tradecrypto.Api.ApiHelper
 import com.donank.tradecrypto.BR
 import com.donank.tradecrypto.Dagger.MainApplication
+import com.donank.tradecrypto.Data.Dao.DashboardDao
 import com.donank.tradecrypto.Data.Dao.TrackedCurrencyDao
 import com.donank.tradecrypto.Data.Models.DashboardModel
-import com.donank.tradecrypto.Data.Models.Exchanges
 import com.donank.tradecrypto.Data.Models.TrackedCurrency
 import com.donank.tradecrypto.R
 import com.donank.tradecrypto.databinding.ItemHoldingBinding
 import com.github.nitrico.lastadapter.LastAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.dashboard_layout_1.*
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 /**
@@ -30,9 +29,7 @@ import javax.inject.Inject
  */
 class Dashboard : Fragment() {
 
-    lateinit var apiHelper: ApiHelper
-
-    @Inject lateinit var trCurrencyDao : TrackedCurrencyDao
+    @Inject lateinit var dashboardDao: DashboardDao
 
     private val holdings = ObservableArrayList<DashboardModel>()
     private val lastAdapter: LastAdapter by lazy { initLastAdapter() }
@@ -55,35 +52,37 @@ class Dashboard : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         dashboard_recycler_view.adapter = lastAdapter
-        dashboard_recycler_view.layoutManager = LinearLayoutManager(activity)
-        async {
-            trCurrencyDao.insertCurrency(TrackedCurrency("BTC-LTC",Exchanges.BITTREX.toString()))
-            trCurrencyDao.insertCurrency(TrackedCurrency("BTC_ETH",Exchanges.POLONIEX.toString()))
-            getData()
+        dashboard_recycler_view.layoutManager = LinearLayoutManager(context)
 
+        launch {
+            getDataFromDb()
         }
 
-            trCurrencyDao.getAllCurrencies().subscribe { test_tv.text = it[0].ticker }
-
+        refresh_dashboard.setOnRefreshListener {
+            //todo fix the never ending progressbar
+            Log.d("OnRefresh Call", "getData")
+            getDataFromDb()
+        }
 
     }
 
-    fun getData(){
-        async {
-            trCurrencyDao.getAllCurrencies()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
-                        it.forEach {
-                            async {
-                                val dash = apiHelper.getTickerPrice(it.ticker, it.exchange)
-                                holdings.clear()
-                                holdings.add(dash)
-                            }
-                        }
-                    }.dispose()
-        }
+    fun getDataFromDb() {
+        Log.d("getDataFromDb", "")
+        dashboardDao.getAllCurrencies()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    holdings.clear()
+                    holdings.addAll(it)
+                    Log.d("holdings", "${holdings.size}")
+                }, {
+                    progressbar.visibility = View.GONE
+                    refresh_dashboard.visibility = View.GONE
+                },{
+                    progressbar.visibility = View.GONE
+                    refresh_dashboard.visibility = View.GONE
+                })
     }
+
 
     override fun onResume() {
         super.onResume()

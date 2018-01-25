@@ -8,54 +8,63 @@ import com.donank.tradecrypto.Data.Models.DashboardModel
 import com.donank.tradecrypto.Data.Models.Exchanges
 import com.donank.tradecrypto.Data.Models.Exchanges.*
 import com.donank.tradecrypto.Data.Models.OrderBookType
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
 import javax.inject.Inject
 
-class ApiHelper {
+class ApiHelper constructor(val bittrexRESTInterface: BittrexRESTInterface, val poloniexRESTInterface: PoloniexRESTInterface){
 
-    @Inject lateinit var bittrexRESTInterface: BittrexRESTInterface
-    @Inject lateinit var poloniexRESTInterface: PoloniexRESTInterface
-
-    suspend fun getTickerPrice(market: String?, exchange: String?): DashboardModel {
+    fun getTickerPrice(market: String?, exchange: String?): DashboardModel {
         val dashModel = DashboardModel()
+        Log.d("getTickerPrice", "$market | $exchange")
         when (exchange) {
-            "BITTREX" -> runBlocking {
-                 async {
-                     bittrexRESTInterface.getTicker(market!!)
-                             .subscribeOn(Schedulers.newThread())
-                             .subscribe {
-                                 if (it.success) {
-                                     dashModel.price = it.result!!.Last
-                                     dashModel.currency = market
-                                     dashModel.exchange = BITTREX
-                                 } else Log.d("$exchange: getTicker($market) failed", "${it.message}")
-                             }.dispose()
-                 }.await()
+            "BITTREX" -> {
+                Log.d("Inside ", "BITTREX")
+                runBlocking {
+                    bittrexRESTInterface.getTicker(market!!)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .map {
+                                if (it.success) {
+                                    dashModel.price = it.result!!.Last
+                                    dashModel.currency = market
+                                    dashModel.exchange = BITTREX
+                                    return@map dashModel
+                                } else Log.d("$exchange: getTicker($market) failed", "${it.message}")
+                            }
+                }
+
             }
-            "POLONIEX" -> runBlocking {
-                async {
+            "POLONIEX" ->  {
+                Log.d("Inside ", "POLONIEX")
+                runBlocking {
                     poloniexRESTInterface.getTicker()
-                            .subscribeOn(Schedulers.newThread())
-                            .subscribe {
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .map {
                                 if (!it.isEmpty()) {
                                     it.forEach {
-                                        if(it.key == market){
+                                        if (it.key == market) {
                                             dashModel.price = it.value.last.toDouble()
                                             dashModel.currency = market
                                             dashModel.exchange = POLONIEX
                                             dashModel.percentChange = it.value.percentChange.toFloat()
+                                            return@map dashModel
                                         }
                                     }
-                                }
-                            }.dispose()
-                }.await()
+                                } else Log.d("POLONIEX ", "Request Failed")
+                            }
+                }
+
             }
         }
+        Log.d("getTickerPrice - return", "$dashModel")
         return dashModel
     }
-
+/*
     fun getOrderBook(market: String, exchange: Exchanges, type: OrderBookType) {
 
         when (exchange) {
@@ -70,7 +79,7 @@ class ApiHelper {
             }
         }
     }
-/*
+
     fun buy(market: String, exchange: Exchanges, quantity: Double, rate: Double) {
 
         when (exchange) {

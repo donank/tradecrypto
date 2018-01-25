@@ -7,7 +7,6 @@ import com.donank.tradecrypto.Dagger.MainApplication
 import com.donank.tradecrypto.Fragments.Dashboard
 import com.donank.tradecrypto.R
 import donank.tradecrypto.tradecrypto.Common.showFragment
-
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +18,8 @@ class MainActivity : AppCompatActivity() {
                         this,
                         Dashboard::class.java.name
                 ),
-                addToBackStack = false)
+                addToBackStack = false
+        )
     }
 
     private fun showFragment(fragment: Fragment, addToBackStack: Boolean = true) {

@@ -12,23 +12,22 @@ import retrofit2.http.Query
 
 interface PoloniexRESTInterface {
 
-    @GET("")
-    suspend fun getTicker(
-            @Query("command") command: String = "returnTicker"): Observable<Map<String, Ticker>>
+    @GET(".")
+    fun getTicker(@Query("command") command: String = "returnTicker"): Observable<Map<String, Ticker>>
 
-    @GET("")
+    @GET(".")
     fun get24Volume(@Query("command") command: String = "return24Volume"): Observable<Map<String, Volume>>
 
-    @GET("")
+    @GET(".")
     fun getOrderBook(@Query("command") command: String = "returnOrderBook"): Observable<OrderBook>
 
-    @GET("")
+    @GET(".")
     fun getOrderBook(@Query("command") command: String = "returnOrderBook",
                      @Query("currencyPair") currencyPair : String,
                      @Query("depth")depth : Int?
     ): Observable<Map<String, OrderBook>>
 
-    @GET("")
+    @GET(".")
     fun getTradeHistory(
             @Query("command") command: String = "returnTradeHistory",
             @Query("currencyPair") currencyPair : String,
@@ -36,7 +35,7 @@ interface PoloniexRESTInterface {
             @Query("end") end : Long
     ) : Observable<List<TradeHistory>>
 
-    @GET("")
+    @GET(".")
     fun getChartData(
             @Query("command") command: String = "returnChartData",
             @Query("currencyPair") currencyPair : String,
@@ -45,7 +44,7 @@ interface PoloniexRESTInterface {
             @Query("period") period : Long
     ) : Observable<List<ChartData>>
 
-    @GET("")
+    @GET(".")
     fun getCurrencyData(@Query("command") command : String = "returnCurrencies") : Observable<Map<String, CurrencyData>>
 
 
@@ -59,7 +58,7 @@ interface PoloniexRESTInterface {
                     .addConverterFactory(MoshiConverterFactory.create(moshi)
                             .asLenient())
                     .client(client)
-                    .baseUrl(" https://poloniex.com/public")
+                    .baseUrl(" https://poloniex.com/public/")
                     .build()
 
             return retrofit.create(PoloniexRESTInterface::class.java)

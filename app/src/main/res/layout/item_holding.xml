@@ -18,10 +18,24 @@
             android:text="@{item.currency}"/>
 
         <TextView
+            android:id="@+id/t_holdings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(item.amount)}"/>
+
+        <TextView
             android:id="@+id/t_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{String.valueOf(item.price)}"/>
+
+        <TextView
+            android:id="@+id/t_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(item.exchange)}"/>
+
+
 
     </LinearLayout>
 

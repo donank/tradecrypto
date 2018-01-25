@@ -2,18 +2,18 @@ package com.donank.tradecrypto.Dagger
 
 import android.app.Application
 import android.arch.persistence.room.Room
-import android.content.Context
+import com.donank.tradecrypto.Api.ApiHelper
 import com.donank.tradecrypto.Api.REST.BittrexRESTInterface
 import com.donank.tradecrypto.Api.REST.CMCRESTInterface
 import com.donank.tradecrypto.Api.REST.PoloniexRESTInterface
 import com.donank.tradecrypto.Data.AppDatabase
+import com.donank.tradecrypto.Data.MIgrations.Migrate_1_2
 import com.squareup.moshi.*
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
@@ -30,11 +30,16 @@ class AppModule(private val app: Application) {
     @Singleton
     fun providesAppDatabase(context: Application): AppDatabase =
             Room.databaseBuilder(context, AppDatabase::class.java, "my-trade-crypto-db")
+                    .addMigrations(Migrate_1_2())
                     .build()
 
     @Provides
     @Singleton
     fun providesTrackedCurrencyDao(database: AppDatabase) = database.trackedCurrencyDao()
+
+    @Provides
+    @Singleton
+    fun providesDashboardDao(database: AppDatabase) = database.dashboardDao()
 
 
     @Provides
@@ -66,5 +71,12 @@ class AppModule(private val app: Application) {
     @Singleton
     fun providePoloniexRESTInterface(moshi: Moshi, http: OkHttpClient) =
             PoloniexRESTInterface.create(moshi, http)
+
+    @Provides
+    @Singleton
+    internal fun provideApiHelper(bittrexRESTInterface: BittrexRESTInterface, poloniexRESTInterface: PoloniexRESTInterface): ApiHelper {
+        return ApiHelper(bittrexRESTInterface, poloniexRESTInterface)
+    }
+
 }
 
