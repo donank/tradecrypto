@@ -8,17 +8,5 @@ import android.arch.persistence.room.migration.Migration
  */
 class Migrate_1_2 : Migration(1,2) {
     override fun migrate(database: SupportSQLiteDatabase) {
-        database.execSQL(
-                "create table dashboard_model" +
-                        "(" +
-                        "currency DOUBLE" +
-                        "price DOUBLE" +
-                        "amount DOUBLE" +
-                        "change DOUBLE" +
-                        "action VARCHAR(255)" +
-                        "exchange VARCHAR(255)" +
-                        "percent_change FLOAT" +
-                        ");"
-        )
     }
 }

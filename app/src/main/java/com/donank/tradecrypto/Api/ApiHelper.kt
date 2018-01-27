@@ -3,82 +3,54 @@ package com.donank.tradecrypto.Api
 import android.util.Log
 import com.donank.tradecrypto.Api.REST.BittrexRESTInterface
 import com.donank.tradecrypto.Api.REST.PoloniexRESTInterface
-import com.donank.tradecrypto.Data.AppPref.bittrexApiKey
-import com.donank.tradecrypto.Data.Models.DashboardModel
-import com.donank.tradecrypto.Data.Models.Exchanges
-import com.donank.tradecrypto.Data.Models.Exchanges.*
-import com.donank.tradecrypto.Data.Models.OrderBookType
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
-import javax.inject.Inject
+class ApiHelper{
 
-class ApiHelper constructor(val bittrexRESTInterface: BittrexRESTInterface, val poloniexRESTInterface: PoloniexRESTInterface){
-
-    fun getTickerPrice(market: String?, exchange: String?): DashboardModel {
-        val dashModel = DashboardModel()
+    fun getTickerPrice(market: String, exchange: String) {
+        lateinit var bittrexRESTInterface: BittrexRESTInterface
+        lateinit var poloniexRESTInterface : PoloniexRESTInterface
         Log.d("getTickerPrice", "$market | $exchange")
         when (exchange) {
             "BITTREX" -> {
                 Log.d("Inside ", "BITTREX")
-                runBlocking {
-                    bittrexRESTInterface.getTicker(market!!)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .map {
+                    bittrexRESTInterface.getTicker(market)
+                            .subscribeOn(Schedulers.newThread())
+                            .observeOn(Schedulers.newThread())
+                            .subscribe ({
                                 if (it.success) {
-                                    dashModel.price = it.result!!.Last
-                                    dashModel.currency = market
-                                    dashModel.exchange = BITTREX
-                                    return@map dashModel
+                                    Log.d("Request Success", "$exchange- $market : ${it.result.Last}")
                                 } else Log.d("$exchange: getTicker($market) failed", "${it.message}")
-                            }
-                }
+                            },{
+                                Log.d("Error on Bitt Request","${it.message}")
+                            },{
+                                Log.d("Request success","Do something")
+                            })
 
             }
             "POLONIEX" ->  {
                 Log.d("Inside ", "POLONIEX")
-                runBlocking {
                     poloniexRESTInterface.getTicker()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .map {
+                            .subscribeOn(Schedulers.newThread())
+                            .observeOn(Schedulers.newThread())
+                            .subscribe ({
                                 if (!it.isEmpty()) {
+                                    Log.d("Request Success","${it.size}")
                                     it.forEach {
                                         if (it.key == market) {
-                                            dashModel.price = it.value.last.toDouble()
-                                            dashModel.currency = market
-                                            dashModel.exchange = POLONIEX
-                                            dashModel.percentChange = it.value.percentChange.toFloat()
-                                            return@map dashModel
+                                            Log.d("Market found", "$exchange- $market : ${it.key} | ${it.value}")
                                         }
                                     }
                                 } else Log.d("POLONIEX ", "Request Failed")
-                            }
-                }
+                            }, {
+                                Log.d("Error on Polo Request","${it.message}")
+                            },{
+                                Log.d("Request success","Do something")
+                            })
 
             }
         }
-        Log.d("getTickerPrice - return", "$dashModel")
-        return dashModel
     }
 /*
-    fun getOrderBook(market: String, exchange: Exchanges, type: OrderBookType) {
-
-        when (exchange) {
-            BITTREX -> {
-                bittrexRESTInterface.getOrderBook(market, type.toString().toLowerCase())
-                        .map {
-                            if (it.success) {
-                                return@map it.result
-                            } else Log.d("$exchange: getOrderBook($market) failed", "${it.message}")
-                        }
-
-            }
-        }
-    }
 
     fun buy(market: String, exchange: Exchanges, quantity: Double, rate: Double) {
 

@@ -30,16 +30,11 @@ class AppModule(private val app: Application) {
     @Singleton
     fun providesAppDatabase(context: Application): AppDatabase =
             Room.databaseBuilder(context, AppDatabase::class.java, "my-trade-crypto-db")
-                    .addMigrations(Migrate_1_2())
                     .build()
 
     @Provides
     @Singleton
     fun providesTrackedCurrencyDao(database: AppDatabase) = database.trackedCurrencyDao()
-
-    @Provides
-    @Singleton
-    fun providesDashboardDao(database: AppDatabase) = database.dashboardDao()
 
 
     @Provides
@@ -75,7 +70,7 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideApiHelper(bittrexRESTInterface: BittrexRESTInterface, poloniexRESTInterface: PoloniexRESTInterface): ApiHelper {
-        return ApiHelper(bittrexRESTInterface, poloniexRESTInterface)
+        return ApiHelper()
     }
 
 }

@@ -9,13 +9,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.donank.tradecrypto.Api.ApiHelper
 import com.donank.tradecrypto.BR
 import com.donank.tradecrypto.Dagger.MainApplication
-import com.donank.tradecrypto.Data.Dao.DashboardDao
 import com.donank.tradecrypto.Data.Dao.TrackedCurrencyDao
 import com.donank.tradecrypto.Data.Models.DashboardModel
-import com.donank.tradecrypto.Data.Models.TrackedCurrency
 import com.donank.tradecrypto.R
 import com.donank.tradecrypto.databinding.ItemHoldingBinding
 import com.github.nitrico.lastadapter.LastAdapter
@@ -29,7 +26,7 @@ import javax.inject.Inject
  */
 class Dashboard : Fragment() {
 
-    @Inject lateinit var dashboardDao: DashboardDao
+    @Inject lateinit var trackedCurrencyDao: TrackedCurrencyDao
 
     private val holdings = ObservableArrayList<DashboardModel>()
     private val lastAdapter: LastAdapter by lazy { initLastAdapter() }
@@ -67,8 +64,9 @@ class Dashboard : Fragment() {
     }
 
     fun getDataFromDb() {
+        //todo fix view issues
         Log.d("getDataFromDb", "")
-        dashboardDao.getAllCurrencies()
+        trackedCurrencyDao.getAllCurrencies()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     holdings.clear()

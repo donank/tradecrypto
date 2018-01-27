@@ -71,10 +71,10 @@ interface BittrexRESTInterface {
     fun getOrderHistory(@Query("market") market : String) : Observable<OrderHistory>
 
     @GET("account/getwithdrawalhistory")
-    fun getWithdrawalHistory(@Query("currency") currency: String) : Observable<TransferHistory>
+    fun getWithdrawalHistory(@Query("currency") currency: String?) : Observable<TransferHistory>
 
     @GET("account/getdeposithistory")
-    fun getDepositHistory(@Query("currency") currency: String) : Observable<TransferHistory>
+    fun getDepositHistory(@Query("currency") currency: String?) : Observable<TransferHistory>
 
     companion object {
 
