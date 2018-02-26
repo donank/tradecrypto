@@ -2,7 +2,7 @@ package com.donank.tradecrypto.Dagger
 
 
 import android.app.Application
-import com.donank.tradecrypto.Activity.MainActivity
+import com.donank.tradecrypto.BaseActivity.MainActivity
 import com.donank.tradecrypto.Fragments.*
 import dagger.Component
 import javax.inject.Singleton

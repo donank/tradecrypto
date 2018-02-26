@@ -3,7 +3,7 @@
     <data>
         <variable
             name = "item"
-            type = "com.donank.tradecrypto.Data.Models.DashboardModel"/>
+            type = "com.donank.tradecrypto.BaseData.Models.DashboardModel"/>
     </data>
 
     <LinearLayout

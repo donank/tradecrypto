@@ -1,11 +1,11 @@
-package com.donank.tradecrypto.Data.Models
+package com.donank.tradecrypto.Exchanges.Poloniex.Data
 
 import java.util.*
 
 /**
  * Created by donank on 30/12/17.
  */
-class PoloniexModel {
+class Model {
 
     data class Ticker(
             val last : String,

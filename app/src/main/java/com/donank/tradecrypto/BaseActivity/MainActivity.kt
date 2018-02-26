@@ -1,4 +1,4 @@
-package com.donank.tradecrypto.Activity
+package com.donank.tradecrypto.BaseActivity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle

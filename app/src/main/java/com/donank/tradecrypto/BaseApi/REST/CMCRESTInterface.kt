@@ -1,6 +1,6 @@
-package com.donank.tradecrypto.Api.REST
+package com.donank.tradecrypto.BaseApi.REST
 
-import com.donank.tradecrypto.Data.Models.CMCModel
+import com.donank.tradecrypto.BaseData.Models.CMCModel
 import com.squareup.moshi.Moshi
 import io.reactivex.Observable
 import okhttp3.OkHttpClient

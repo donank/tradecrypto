@@ -1,28 +1,16 @@
-package com.donank.tradecrypto.Api
+package com.donank.tradecrypto.BaseApi
 
-import android.util.Log
-import com.donank.tradecrypto.Api.REST.BittrexRESTInterface
-import com.donank.tradecrypto.Api.REST.PoloniexRESTInterface
-import com.donank.tradecrypto.Data.AppPref.bittrexApiKey
-import com.donank.tradecrypto.Data.Models.DashboardModel
-import com.donank.tradecrypto.Data.Models.Exchanges
-import com.donank.tradecrypto.Data.Models.Exchanges.*
-import com.donank.tradecrypto.Data.Models.OrderBookType
-import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
 import javax.inject.Inject
 
 class ApiHelper {
 
-    @Inject lateinit var bittrexRESTInterface: BittrexRESTInterface
-    @Inject lateinit var poloniexRESTInterface: PoloniexRESTInterface
-
+    @Inject lateinit var bittrexRESTInterface: RESTInterface
+    @Inject lateinit var poloniexRESTInterface: com.donank.tradecrypto.Exchanges.Poloniex.Api.RESTInterface
+/*
     suspend fun getTickerPrice(market: String?, exchange: String?): DashboardModel {
         val dashModel = DashboardModel()
         when (exchange) {
-            "BITTREX" -> runBlocking {
-                 async {
+            "BITTREX" -> {
                      bittrexRESTInterface.getTicker(market!!)
                              .subscribeOn(Schedulers.newThread())
                              .subscribe {
@@ -31,29 +19,25 @@ class ApiHelper {
                                      dashModel.currency = market
                                      dashModel.exchange = BITTREX
                                  } else Log.d("$exchange: getTicker($market) failed", "${it.message}")
-                             }.dispose()
-                 }.await()
+                             }
+                 }
             }
-            "POLONIEX" -> runBlocking {
-                async {
-                    poloniexRESTInterface.getTicker()
-                            .subscribeOn(Schedulers.newThread())
-                            .subscribe {
-                                if (!it.isEmpty()) {
-                                    it.forEach {
-                                        if(it.key == market){
-                                            dashModel.price = it.value.last.toDouble()
-                                            dashModel.currency = market
-                                            dashModel.exchange = POLONIEX
-                                            dashModel.percentChange = it.value.percentChange.toFloat()
-                                        }
+            "POLONIEX" -> {
+                poloniexRESTInterface.getTicker()
+                        .subscribeOn(Schedulers.newThread())
+                        .subscribe {
+                            if (!it.isEmpty()) {
+                                it.forEach {
+                                    if (it.key == market) {
+                                        dashModel.price = it.value.last.toDouble()
+                                        dashModel.currency = market
+                                        dashModel.exchange = POLONIEX
+                                        dashModel.percentChange = it.value.percentChange.toFloat()
                                     }
                                 }
-                            }.dispose()
-                }.await()
-            }
-        }
-        return dashModel
+                            }
+                        }
+
     }
 
     fun getOrderBook(market: String, exchange: Exchanges, type: OrderBookType) {
@@ -70,7 +54,7 @@ class ApiHelper {
             }
         }
     }
-/*
+
     fun buy(market: String, exchange: Exchanges, quantity: Double, rate: Double) {
 
         when (exchange) {

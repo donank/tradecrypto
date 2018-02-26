@@ -1,6 +1,5 @@
-package com.donank.tradecrypto.Data
+package com.donank.tradecrypto.BaseData
 
-import android.content.SharedPreferences
 import com.chibatching.kotpref.KotprefModel
 
 /**

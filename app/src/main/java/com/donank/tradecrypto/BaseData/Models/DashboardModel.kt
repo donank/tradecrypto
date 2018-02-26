@@ -1,4 +1,4 @@
-package com.donank.tradecrypto.Data.Models
+package com.donank.tradecrypto.BaseData.Models
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity

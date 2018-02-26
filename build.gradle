@@ -9,7 +9,7 @@ buildscript {
     ext.gradle_version = '2.3.3'
     ext.kotpref_version = '2.1.2'
     ext.okhttp_version = '3.9.0'
-    ext.gradle_version = '3.1.0-alpha08'
+    ext.gradle_version = '3.1.0-beta1'
 
     repositories {
         google()

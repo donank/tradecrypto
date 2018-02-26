@@ -8,13 +8,13 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.donank.tradecrypto.Api.ApiHelper
+import com.donank.tradecrypto.BaseApi.ApiHelper
 import com.donank.tradecrypto.BR
 import com.donank.tradecrypto.Dagger.MainApplication
-import com.donank.tradecrypto.Data.Dao.TrackedCurrencyDao
-import com.donank.tradecrypto.Data.Models.DashboardModel
-import com.donank.tradecrypto.Data.Models.Exchanges
-import com.donank.tradecrypto.Data.Models.TrackedCurrency
+import com.donank.tradecrypto.BaseData.Dao.TrackedCurrencyDao
+import com.donank.tradecrypto.BaseData.Models.DashboardModel
+import com.donank.tradecrypto.BaseData.Models.Exchanges
+import com.donank.tradecrypto.BaseData.Models.TrackedCurrency
 import com.donank.tradecrypto.R
 import com.donank.tradecrypto.databinding.ItemHoldingBinding
 import com.github.nitrico.lastadapter.LastAdapter
@@ -22,7 +22,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.dashboard_layout_1.*
 import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
 import javax.inject.Inject
 
 /**
@@ -32,7 +31,8 @@ class Dashboard : Fragment() {
 
     lateinit var apiHelper: ApiHelper
 
-    @Inject lateinit var trCurrencyDao : TrackedCurrencyDao
+    @Inject
+    lateinit var trCurrencyDao: TrackedCurrencyDao
 
     private val holdings = ObservableArrayList<DashboardModel>()
     private val lastAdapter: LastAdapter by lazy { initLastAdapter() }
@@ -57,32 +57,32 @@ class Dashboard : Fragment() {
         dashboard_recycler_view.adapter = lastAdapter
         dashboard_recycler_view.layoutManager = LinearLayoutManager(activity)
         async {
-            trCurrencyDao.insertCurrency(TrackedCurrency("BTC-LTC",Exchanges.BITTREX.toString()))
-            trCurrencyDao.insertCurrency(TrackedCurrency("BTC_ETH",Exchanges.POLONIEX.toString()))
+            trCurrencyDao.insertCurrency(TrackedCurrency("BTC-LTC", Exchanges.BITTREX.toString()))
+            trCurrencyDao.insertCurrency(TrackedCurrency("BTC_ETH", Exchanges.POLONIEX.toString()))
             getData()
 
         }
 
-            trCurrencyDao.getAllCurrencies().subscribe { test_tv.text = it[0].ticker }
+        trCurrencyDao.getAllCurrencies().subscribe { test_tv.text = it[0].ticker }
 
 
     }
 
-    fun getData(){
-        async {
-            trCurrencyDao.getAllCurrencies()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
-                        it.forEach {
-                            async {
-                                val dash = apiHelper.getTickerPrice(it.ticker, it.exchange)
-                                holdings.clear()
-                                holdings.add(dash)
-                            }
+    fun getData() {
+
+        trCurrencyDao.getAllCurrencies()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    it.forEach {
+                        async {
+                            val dash = apiHelper.getTickerPrice(it.ticker, it.exchange)
+                            holdings.clear()
+                            holdings.add(dash)
                         }
-                    }.dispose()
-        }
+                    }
+                }
+
     }
 
     override fun onResume() {

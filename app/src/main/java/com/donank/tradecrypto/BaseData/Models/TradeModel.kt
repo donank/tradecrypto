@@ -1,4 +1,4 @@
-package com.donank.tradecrypto.Data.Models
+package com.donank.tradecrypto.BaseData.Models
 
 data class TickerValueModel(
         var bid: Double? = null,
