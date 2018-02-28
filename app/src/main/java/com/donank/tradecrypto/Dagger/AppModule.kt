@@ -2,8 +2,12 @@ package com.donank.tradecrypto.Dagger
 
 import android.app.Application
 import android.arch.persistence.room.Room
+import com.donank.tradecrypto.BaseApi.BaseRepository
 import com.donank.tradecrypto.BaseApi.REST.CMCRESTInterface
 import com.donank.tradecrypto.BaseData.AppDatabase
+import com.donank.tradecrypto.Exchanges.Bittrex.Api.BittrexRESTInterface
+import com.donank.tradecrypto.Exchanges.Bittrex.BittrexRepository
+import com.donank.tradecrypto.Exchanges.Poloniex.Api.PoloniexRESTInterface
 import com.squareup.moshi.*
 import dagger.Module
 import dagger.Provides
@@ -51,7 +55,7 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     fun provideBittrexRESTInterface(moshi: Moshi, http: OkHttpClient) =
-            RESTInterface.create(moshi, http)
+            BittrexRESTInterface.create(moshi, http)
 
     @Provides
     @Singleton
@@ -61,6 +65,14 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     fun providePoloniexRESTInterface(moshi: Moshi, http: OkHttpClient) =
-            RESTInterface.create(moshi, http)
+            PoloniexRESTInterface.create(moshi, http)
+
+    @Provides
+    @Singleton
+    fun provideBittrexRepository() = BittrexRepository()
+
+    @Provides
+    @Singleton
+    fun provideBaseRepository() = BaseRepository()
 }
 

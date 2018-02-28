@@ -13,7 +13,7 @@ import retrofit2.http.Query
 /**
  * Created by donank on 30/12/17.
  */
-interface RESTInterface {
+interface BittrexRESTInterface {
 
     //api calls here
     @GET("/public/getmarkets")
@@ -78,7 +78,7 @@ interface RESTInterface {
 
     companion object {
 
-        fun create(moshi: Moshi, client: OkHttpClient): RESTInterface {
+        fun create(moshi: Moshi, client: OkHttpClient): BittrexRESTInterface {
 
 
             val retrofit = Retrofit.Builder()
@@ -89,7 +89,7 @@ interface RESTInterface {
                     .baseUrl("https://bittrex.com/api/v1.1")
                     .build()
 
-            return retrofit.create(RESTInterface::class.java)
+            return retrofit.create(BittrexRESTInterface::class.java)
         }
     }
 

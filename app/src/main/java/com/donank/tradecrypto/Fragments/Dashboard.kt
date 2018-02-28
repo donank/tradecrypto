@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.donank.tradecrypto.BaseApi.ApiHelper
+import com.donank.tradecrypto.BaseApi.BaseRepository
 import com.donank.tradecrypto.BR
 import com.donank.tradecrypto.Dagger.MainApplication
 import com.donank.tradecrypto.BaseData.Dao.TrackedCurrencyDao
@@ -29,7 +29,7 @@ import javax.inject.Inject
  */
 class Dashboard : Fragment() {
 
-    lateinit var apiHelper: ApiHelper
+    lateinit var baseRepository: BaseRepository
 
     @Inject
     lateinit var trCurrencyDao: TrackedCurrencyDao
@@ -75,11 +75,10 @@ class Dashboard : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     it.forEach {
-                        async {
-                            val dash = apiHelper.getTickerPrice(it.ticker, it.exchange)
-                            holdings.clear()
-                            holdings.add(dash)
-                        }
+
+                            //val dash = baseRepository.getTickerPrice(it.ticker, it.exchange)
+                           // holdings.clear()
+                          //  holdings.add(dash)
                     }
                 }
 

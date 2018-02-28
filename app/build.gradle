@@ -33,11 +33,6 @@ android {
     }
 }
 
-kotlin {
-    experimental {
-        coroutines 'enable'
-    }
-}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -79,9 +74,11 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
 
     implementation 'com.github.nitrico.lastadapter:lastadapter:2.3.0'
+
     kapt "com.android.databinding:compiler:$gradle_version"
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
     //nv-websocket-client
     implementation 'com.neovisionaries:nv-websocket-client:2.3'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.2.21'
@@ -92,6 +89,12 @@ dependencies {
 
     // RxJava support for Room
     implementation "android.arch.persistence.room:rxjava2:1.0.0"
+
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+
+    kapt "android.arch.lifecycle:common:1.1.0"
+
 }
 repositories {
     mavenCentral()

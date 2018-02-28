@@ -8,6 +8,7 @@ import android.arch.persistence.room.Query
 import com.donank.tradecrypto.BaseData.Models.TrackedCurrency
 import io.reactivex.Flowable
 
+//interface for accessing data from db
 @Dao interface TrackedCurrencyDao {
 
     @Query("select * from tracked_currency")

@@ -6,7 +6,7 @@ import com.neovisionaries.ws.client.WebSocketException
 import com.neovisionaries.ws.client.WebSocketFrame
 
 
-class WSInterface : WebSocketAdapter() {
+class PoloniexWSInterface : WebSocketAdapter() {
     override fun onConnectError(websocket: WebSocket?, exception: WebSocketException?) {
         super.onConnectError(websocket, exception)
     }

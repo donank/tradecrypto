@@ -1,6 +1,6 @@
-package com.donank.tradecrypto.Api.REST
+package com.donank.tradecrypto.Exchanges.Poloniex.Api
 
-import com.donank.tradecrypto.Data.Models.PoloniexModel.*
+import com.donank.tradecrypto.Exchanges.Poloniex.Data.Model.*
 import com.squareup.moshi.Moshi
 import io.reactivex.Observable
 import okhttp3.OkHttpClient

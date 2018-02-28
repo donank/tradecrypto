@@ -14,7 +14,7 @@ data class KeyPair (
 )
 
 enum class Exchanges {
-        BITTREX, POLONIEX, BINANCE, RADAR
+        BITTREX, POLONIEX, BINANCE, RADAR, NOEXCHANGE
 }
 
 enum class OrderBookType {
@@ -42,19 +42,27 @@ data class DashboardModel (
 )
 
 enum class Action {
-        BUYLIMIT, SELLLIMIT, TRANSFER, ALERT
+        BUYLIMIT, SELLLIMIT, TRANSFER, ALERT, IDLE
 }
 
 @Entity(tableName = "tracked_currency")
 data class TrackedCurrency (
 
-    @ColumnInfo(name = "ticker")
-    var ticker : String? = null,
-    @ColumnInfo(name = "exchange")
-    var exchange : String? = null,
-    @PrimaryKey(autoGenerate = true)
-    var id: Long = 0
+        @ColumnInfo(name = "ticker")
+        var ticker : String? = null,
+        @ColumnInfo(name = "exchange")
+        var exchange : Exchanges = Exchanges.NOEXCHANGE,
+        var price : Double = 0.0,
+        var amount : Double = 0.0,
+        var change : Double = 0.0,
+        var action : Action = Action.IDLE,
+        @ColumnInfo(name = "percent_change")
+        var percentChange : Double = 0.0,
+        @PrimaryKey(autoGenerate = true)
+        var id: Long = 0
 )
+
+
 
 
 
